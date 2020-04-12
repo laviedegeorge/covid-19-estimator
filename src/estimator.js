@@ -1,13 +1,13 @@
 
 // Changenge 1 Functions
 const estimateCurrentlyInfected = (impact, data) => {
-  const currentlyInfected = data.reportedCases * impact;
+  const currentlyInfected = Math.trunc(data.reportedCases * impact);
   return currentlyInfected;
 };
 const infectionByRequestTime = (data, currentlyInfected) => {
-  if (data.periodType.toLowerCase() === 'days') {
+  /* if (data.periodType.toLowerCase() === 'days') {
     data.timeToElapse *= 1;
-  }
+  } */
   if (data.periodType.toLowerCase() === 'weeks') {
     data.timeToElapse *= 7;
   }
@@ -16,7 +16,7 @@ const infectionByRequestTime = (data, currentlyInfected) => {
   }
   const time = Math.trunc(data.timeToElapse / 3);
   // eslint-disable-next-line no-restricted-properties
-  const infectionBRT = currentlyInfected * Math.pow(2, time);
+  const infectionBRT = currentlyInfected * (Math.trunc(Math.pow(2, time)));
   return infectionBRT;
 };
 
