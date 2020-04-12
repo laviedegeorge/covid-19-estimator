@@ -6,9 +6,9 @@ const estimateCurrentlyInfected = (impact, data) => {
 };
 const infectionByRequestTime = (data, impact) => {
   const currentlyInfected = Math.trunc(data.reportedCases * impact);
-  if (data.periodType.toLowerCase() === 'days') {
+  /* if (data.periodType.toLowerCase() === 'days') {
     data.timeToElapse *= 1;
-  }
+  } */
   if (data.periodType.toLowerCase() === 'weeks') {
     data.timeToElapse *= 7;
   }
