@@ -42,22 +42,22 @@ const estimateDollarsInFlight = (data, infectionRT) => {
 // Estimate Impact function
 const estimateImpact = (data, impact) => {
   // Challenge 1
-  const currentlyInfected = estimateCurrentlyInfected(impact, data);
-  const infectionByRequestedTime = infectionByRequestTime(data, currentlyInfected);
+  const currentlyInfectedR = Math.trunc(estimateCurrentlyInfected(impact, data));
+  const infectionByRT = Math.trunc(infectionByRequestTime(data, currentlyInfectedR));
 
   // Challenge 2
-  const severeCasesByRequestedTime = estSevereCasesBRT(currentlyInfected);
+  const severeCasesByRequestedTime = estSevereCasesBRT(currentlyInfectedR);
   const hospitalBedsByRequestedTime = estHospitalBRT(data, severeCasesByRequestedTime);
 
   // Challenge 3
-  const casesForICUByRequestedTime = estimateCasesForICUByRequestedTime(infectionByRequestedTime);
-  const casesForVentilatorsByRequestedTime = casesVentilatorsBRT(infectionByRequestedTime);
-  const dollarsInFlightForImpact = estimateDollarsInFlight(data, infectionByRequestedTime);
+  const casesForICUByRequestedTime = estimateCasesForICUByRequestedTime(infectionByRT);
+  const casesForVentilatorsByRequestedTime = casesVentilatorsBRT(infectionByRT);
+  const dollarsInFlightForImpact = estimateDollarsInFlight(data, infectionByRT);
 
   // Impact object
   const impactObj = {
-    currentlyInfected: Math.trunc(currentlyInfected),
-    infectionByRequestedTime: Math.trunc(infectionByRequestedTime),
+    currentlyInfected: currentlyInfectedR,
+    infectionByRequestedTime: infectionByRT,
     severeCasesByRequestedTime: Math.trunc(severeCasesByRequestedTime),
     hospitalBedsByRequestedTime: Math.trunc(hospitalBedsByRequestedTime),
     casesForICUByRequestedTime: Math.trunc(casesForICUByRequestedTime),
