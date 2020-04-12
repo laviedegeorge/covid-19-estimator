@@ -1,73 +1,58 @@
-const inputData = {
-  region: {
-    name: 'Africa',
-    avgAge: 19.7,
-    avgDailyIncomeInUSD: 4,
-    avgDailyIncomePopulation: 0.73
-  },
-  periodType: 'days',
-  timeToElapse: 38,
-  reportedCases: 2747,
-  population: 92931687,
-  totalHospitalBeds: 678874
-};
 
 // Changenge 1 Functions
-
-const estimateCurrentlyInfected = (impact) => {
-  const currentlyInfected = inputData.reportedCases * impact;
+const estimateCurrentlyInfected = (impact, data) => {
+  const currentlyInfected = data.reportedCases * impact;
   return currentlyInfected;
 };
-const estimateInfectionByRequestedTime = (num) => {
-  const infectionByRequestedTime = estimateCurrentlyInfected(num) * 512;
-  return infectionByRequestedTime;
+const infectionByRequestTime = (data, currentlyInfected) => {
+  if (data.periodType.toLowerCase() === 'days') {
+    data.timeToElapse *= 1;
+  }
+  if (data.periodType.toLowerCase() === 'weeks') {
+    data.timeToElapse *= 7;
+  }
+  if (data.periodType.toLowerCase() === 'months') {
+    data.timeToElapse *= 30;
+  }
+  const time = Math.trunc(data.timeToElapse / 3);
+  // eslint-disable-next-line no-restricted-properties
+  const infectionBRT = currentlyInfected * Math.pow(2, time);
+  return infectionBRT;
 };
 
 // Changenge 2 functions
-
-const estimateSevereCasesByRequestedTime = (num) => {
-  const severeCasesByRequestedTime = estimateInfectionByRequestedTime(num) * 0.15;
-  return severeCasesByRequestedTime;
+// eslint-disable-next-line arrow-body-style
+const estSevereCasesBRT = (currentlyInfected) => {
+  return currentlyInfected * 512 * 0.15;
 };
-const estimateHospitalBedsByRequestedTime = (num) => {
-  const percentOfTotalHosiptalBeds = inputData.totalHospitalBeds * 0.35;
-  const hospitalBedsByRequestedTime = percentOfTotalHosiptalBeds
-  - (estimateSevereCasesByRequestedTime(num));
-  return hospitalBedsByRequestedTime;
+// eslint-disable-next-line arrow-body-style
+const estHospitalBRT = (data, severeCasesByRequestTime) => {
+  return data.totalHospitalBeds * 0.35 - severeCasesByRequestTime;
 };
 
 // Changenge 3 functions
-
-const estimateCasesForICUByRequestedTime = (num) => {
-  const casesForICUByRequestedTime = estimateInfectionByRequestedTime(num) * 0.05;
-  return casesForICUByRequestedTime;
-};
-const estimateCasesForVentilatorsByRequestedTime = (num) => {
-  const casesForVentilatorsByRequestedTime = estimateInfectionByRequestedTime(num) * 0.02;
-  return casesForVentilatorsByRequestedTime;
-};
-const estimateDollarsInFlight = (num) => {
-  const dollarsInFlight = (estimateInfectionByRequestedTime(num) * 0.65)
-  * inputData.region.avgDailyIncomeInUSD * 30;
+const estimateCasesForICUByRequestedTime = (infectionRT) => infectionRT * 0.05;
+const casesVentilatorsBRT = (infectionRT) => infectionRT * 0.02;
+const estimateDollarsInFlight = (data, infectionRT) => {
+  const dollarsInFlight = (infectionRT * 0.65)
+  * data.region.avgDailyIncomeInUSD * 30;
   return dollarsInFlight;
 };
 
 // Estimate Impact function
-const estimateImpact = () => {
-  const impact = 10;
-
+const estimateImpact = (data, impact) => {
   // Challenge 1
-  const currentlyInfected = estimateCurrentlyInfected(impact);
-  const infectionByRequestedTime = estimateInfectionByRequestedTime(impact);
+  const currentlyInfected = estimateCurrentlyInfected(impact, data);
+  const infectionByRequestedTime = infectionByRequestTime(data, currentlyInfected);
 
   // Challenge 2
-  const severeCasesByRequestedTime = estimateSevereCasesByRequestedTime(impact);
-  const hospitalBedsByRequestedTime = estimateHospitalBedsByRequestedTime(impact);
+  const severeCasesByRequestedTime = estSevereCasesBRT(currentlyInfected);
+  const hospitalBedsByRequestedTime = estHospitalBRT(data, severeCasesByRequestedTime);
 
   // Challenge 3
-  const casesForICUByRequestedTime = estimateCasesForICUByRequestedTime(impact);
-  const casesForVentilatorsByRequestedTime = estimateCasesForVentilatorsByRequestedTime(impact);
-  const dollarsInFlightForImpact = estimateDollarsInFlight(impact);
+  const casesForICUByRequestedTime = estimateCasesForICUByRequestedTime(infectionByRequestedTime);
+  const casesForVentilatorsByRequestedTime = casesVentilatorsBRT(infectionByRequestedTime);
+  const dollarsInFlightForImpact = estimateDollarsInFlight(data, infectionByRequestedTime);
 
   // Impact object
   const impactObj = {
@@ -81,39 +66,10 @@ const estimateImpact = () => {
   };
   return impactObj;
 };
-const estimateSevereImpact = () => {
-  const severeImpact = 50;
-
-  // Challenge 1
-  const currentlyInfected = estimateCurrentlyInfected(severeImpact);
-  const infectionByRequestedTime = estimateInfectionByRequestedTime(severeImpact);
-
-  // Challenge 2
-  const severeCasesByRequestedTime = estimateSevereCasesByRequestedTime(severeImpact);
-  const hospitalBedsByRequestedTime = estimateHospitalBedsByRequestedTime(severeImpact);
-
-  // Challenge 3
-  const casesForICUByRequestedTime = estimateCasesForICUByRequestedTime(severeImpact);
-  const casesForVentilatorsByReqTime = estimateCasesForVentilatorsByRequestedTime(severeImpact);
-  const dollarsInFlightForSevereImpact = estimateDollarsInFlight(severeImpact);
-
-  // severeImpact object
-  const severeImpactObj = {
-    currentlyInfected: Math.trunc(currentlyInfected),
-    infectionByRequestedTime: Math.trunc(infectionByRequestedTime),
-    severeCasesByRequestedTime: Math.trunc(severeCasesByRequestedTime),
-    hospitalBedsByRequestedTime: Math.trunc(hospitalBedsByRequestedTime),
-    casesForICUByRequestedTime: Math.trunc(casesForICUByRequestedTime),
-    casesForVentilatorsByRequestedTime: Math.trunc(casesForVentilatorsByReqTime),
-    dollarsInFlight: dollarsInFlightForSevereImpact
-  };
-
-  return severeImpactObj;
-};
 
 const covid19ImpactEstimator = (data) => {
-  const impact = estimateImpact(data);
-  const severeImpact = estimateSevereImpact(data);
+  const impact = estimateImpact(data, 10);
+  const severeImpact = estimateImpact(data, 50);
   const completeData = { data, impact, severeImpact };
   return completeData;
 };
