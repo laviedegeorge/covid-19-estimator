@@ -24,7 +24,7 @@ const infectionByRequestTime = (data, impact) => {
 // Changenge 2 functions
 
 // Estimate Impact function
-const estimateImpact = (data, impact) => {
+/* const estimateImpact = (data, impact) => {
   // Challenge 1
   const currentlyInfectedR = Math.trunc(estimateCurrentlyInfected(impact, data));
   const infectionByRT = Math.trunc(infectionByRequestTime(data, impact));
@@ -36,13 +36,26 @@ const estimateImpact = (data, impact) => {
     infectionByRequestedTime: infectionByRT
   };
   return impactObj;
-};
+}; */
 
 const covid19ImpactEstimator = (data) => {
-  const impact = estimateImpact(data, 10);
-  const severeImpact = estimateImpact(data, 50);
-  const completeData = { data, impact, severeImpact };
-  return completeData;
+  const currentlyInfectedR = Math.trunc(estimateCurrentlyInfected(10, data));
+  const currentlyInfectedS = Math.trunc(estimateCurrentlyInfected(50, data));
+
+  const infectionByRT = Math.trunc(infectionByRequestTime(data, 10));
+  const infectionByRTS = Math.trunc(infectionByRequestTime(data, 50));
+
+  return {
+    data,
+    impact: {
+      currentlyInfected: currentlyInfectedR,
+      infectionByRequestedTime: infectionByRT
+    },
+    severeImpact: {
+      currentlyInfected: currentlyInfectedS,
+      infectionByRequestedTime: infectionByRTS
+    }
+  };
 };
 
 export default covid19ImpactEstimator;
