@@ -52,7 +52,7 @@ const casesVentilatorsBRT = (data, currentlyInfected) => {
 const estimateDollarsInFlight = (data, currentlyInfected) => {
   const infectionRT = infectionByRequestTime(data, currentlyInfected);
   const dollarsInFlight = Math.trunc(((infectionRT * (65 / 100))
-  * data.region.avgDailyIncomeInUSD) * 30);
+  * data.region.avgDailyIncomeInUSD) / 30);
   return dollarsInFlight;
 };
 
