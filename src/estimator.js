@@ -37,15 +37,20 @@ const estHospitalBRT = (data, severeCasesByRequestTime) => {
 };
 
 // Changenge 3 functions
-const estimateCasesForICUByRequestedTime = (infectionRT) => {
+const estimateCasesForICUByRequestedTime = (data, currentlyInfected) => {
+  const infectionRT = infectionByRequestTime(data, currentlyInfected);
   const estCasesForICUBRT = Math.trunc(infectionRT * (5 / 100));
+  console.log(estCasesForICUBRT, infectionRT);
   return estCasesForICUBRT;
 };
-const casesVentilatorsBRT = (infectionRT) => {
+const casesVentilatorsBRT = (data, currentlyInfected) => {
+  const infectionRT = infectionByRequestTime(data, currentlyInfected);
   const casesForVentBRT = Math.trunc(infectionRT * (2 / 100));
+  console.log(casesForVentBRT, infectionRT);
   return casesForVentBRT;
 };
-const estimateDollarsInFlight = (data, infectionRT) => {
+const estimateDollarsInFlight = (data, currentlyInfected) => {
+  const infectionRT = infectionByRequestTime(data, currentlyInfected);
   const dollarsInFlight = Math.trunc(((infectionRT * (65 / 100))
   * data.region.avgDailyIncomeInUSD) * 30);
   return dollarsInFlight;
@@ -62,9 +67,9 @@ const estimateImpact = (data, impact) => {
   const hospitalBedsByRequestedTime = estHospitalBRT(data, severeCasesByRequestedTime);
 
   // Challenge 3
-  const casesForICUByRequestedTime = estimateCasesForICUByRequestedTime(infectionByRT);
-  const casesForVentilatorsByRequestedTime = casesVentilatorsBRT(infectionByRT);
-  const dollarsInFlightForImpact = estimateDollarsInFlight(data, infectionByRT);
+  const casesForICUByRequestedTime = estimateCasesForICUByRequestedTime(data, currentlyInfectedR);
+  const casesForVentilatorsByRequestedTime = casesVentilatorsBRT(data, currentlyInfectedR);
+  const dollarsInFlightForImpact = estimateDollarsInFlight(data, currentlyInfectedR);
 
   // Impact object
   const impactObj = {
