@@ -40,13 +40,11 @@ const estHospitalBRT = (data, severeCasesByRequestTime) => {
 const estimateCasesForICUByRequestedTime = (data, currentlyInfected) => {
   const infectionRT = infectionByRequestTime(data, currentlyInfected);
   const estCasesForICUBRT = Math.trunc(infectionRT * (5 / 100));
-  console.log(estCasesForICUBRT, infectionRT);
   return estCasesForICUBRT;
 };
 const casesVentilatorsBRT = (data, currentlyInfected) => {
   const infectionRT = infectionByRequestTime(data, currentlyInfected);
   const casesForVentBRT = Math.trunc(infectionRT * (2 / 100));
-  console.log(casesForVentBRT, infectionRT);
   return casesForVentBRT;
 };
 const estimateDollarsInFlight = (data, currentlyInfected) => {
