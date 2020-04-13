@@ -5,7 +5,7 @@
 
 :root{
     --white: #ffffff;
-    --hotpink : #ed2b33ff;
+    --hotpink : #f44336;
 }
 
 body {
@@ -13,7 +13,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: url('./covid-19.jpg'), #000000;
+    /* background: url('./covid-19.jpg'); */
     background-repeat: no-repeat;
     background-size: cover;
     color: var(--white);
@@ -43,7 +43,7 @@ form{
     width: 100%;
     height: 100%;
     background-color: #000000;
-    opacity: .7;
+    opacity: .9;
     position: absolute;
 }
 
