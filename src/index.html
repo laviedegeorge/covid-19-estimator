@@ -1,0 +1,117 @@
+<!DOCTYPE html lang = "en">
+<html lang = "en" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="Description" content="a novel Covid-19 estimator for impact and severe Impact of a region">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="Covid-19,calculator,estimate">
+    <title>Covid-19 Estimator</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Paaji+2&display=swap" rel="stylesheet"> 
+</head>
+<body>
+    <div class="overlay"></div>
+    <header>
+        <h1>Covid-<span class="red">19</span> Estimator</h1>
+    </header>
+    <div class="form-container">
+        <form action="" id="form">
+           <div class="input-container">
+            <label for="population">
+                Population:
+                <br/>
+                <input 
+                    type="number" 
+                    data-population 
+                    id="population" 
+                    placeholder="123456789"
+                    required
+                />
+            </label>
+            <br/>
+            <label for="time_to_elapse">
+                Time to Elapse:
+                <br/>
+                <input 
+                    type="number" 
+                    data-time-to-elapse 
+                    id="time_to_elapse" 
+                    placeholder="123"
+                    required
+                />
+            </label>
+            <br/>
+            <label for="reported_Cases">
+                Reported Cases:
+                <br/>
+                <input
+                    type="number" 
+                    data-reported-cases 
+                    id="reported_Cases" 
+                    placeholder="123456789"
+                    required
+                />
+            </label>
+            <br/>
+            <label for="total_hospital_beds">
+                Total hospital beds:
+                <br/>
+                <input
+                    type="number" 
+                    data-total-hospital-beds 
+                    id="total_hospital_beds" 
+                    placeholder="123456789"
+                    required
+                />
+            </label>
+            <br/>
+            <label for="">
+                Period Type
+                <br>
+                <select name="" data-period-type id="period_type" required>
+                    <option value="days">Days</option>
+                    <option value="weeks">Weeks</option>
+                    <option value="months">Months</option>
+                </select>
+            </label>
+           </div>
+            <br>
+            <button type="button" data-go-estimate id="estimate">Estimate</button>
+        </form>
+    </div>
+    <div class="estimated-result" id="estimated_result">
+        <div class="impact" id="cont_impact">
+            <p >Impact</p>
+            <p>Currently Infected: <span class="est-impact"></span></p>
+            <p>Infection By Requested Time: <span class="est-impact"></span></p>
+            <p>Severe Cases By Requested Time: <span class="est-impact"></span></p>
+            <p>Hospital Beds By Requested Time: <span class="est-impact"></span></p>
+            <p>Cases For ICU By Requested Time: <span class="est-impact"></span></p>
+            <p>Cases For Ventilators By Requested Time: <span class="est-impact"></span></p>
+            <p>Dollars In Flight: <span class="est-impact"></span></p>
+        </div>
+        <div class="impact servere-impact" id="cont_severe_impact">
+            <p>Severe Impact</p>
+            <p>Currently Infected: <span class="est-severe-impact"></span></p>
+            <p>Infection By Requested Time: <span class="est-severe-impact"></span></p>
+            <p>Severe Cases By Requested Time: <span class="est-severe-impact"></span></p>
+            <p >Hospital Beds By Requested Time: <span class="est-severe-impact"></span></p>
+            <p>Cases For ICU By Requested Time: <span class="est-severe-impact"></span></p>
+            <p>Cases For Ventilators By Requested Time: <span class="est-severe-impact"></span></p>
+            <p>Dollars In Flight: <span class="est-severe-impact"></span></p>
+        </div>
+    </div>
+    <footer>
+        <p>
+            Built by <a href="https://github.com/laviedegeorge">Kelechi George Apugo</a>
+        </p>
+        <p>
+            Inspired by <a href="https://developers.facebook.com/developercircles/">facebook DevC</a>
+            & <a href="https://andela.com/">Andela</a>
+        </p>
+    </footer>
+
+</body>
+<script  type="module" src="./estimator.js"></script>
+<script type="module" src="./index.js"></script>
+</html>
