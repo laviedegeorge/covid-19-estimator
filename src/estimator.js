@@ -5,19 +5,26 @@ const estimateCurrentlyInfected = (impact, data) => {
   return currentlyInfected;
 };
 const infectionByRequestTime = (data, currentlyInfected) => {
+  let time = '';
+  let infectionBRT = '';
+  // for days
   if (data.periodType.toLowerCase() === 'days') {
-    data.timeToElapse *= 1;
+    time = Math.trunc((data.timeToElapse * 1) / 3);
+    infectionBRT = Math.trunc(currentlyInfected * (2 ** time));
+    return infectionBRT;
   }
+  // for weeks
   if (data.periodType.toLowerCase() === 'weeks') {
-    data.timeToElapse *= 7;
+    time = Math.trunc((data.timeToElapse * 7) / 3);
+    infectionBRT = Math.trunc(currentlyInfected * (2 ** time));
+    return infectionBRT;
   }
+  // months
   if (data.periodType.toLowerCase() === 'months') {
-    data.timeToElapse *= 30;
+    time = Math.trunc((data.timeToElapse * 30) / 3);
+    infectionBRT = Math.trunc(currentlyInfected * (2 ** time));
+    return infectionBRT;
   }
-  const time = Math.trunc(data.timeToElapse / 3);
-  // eslint-disable-next-line no-restricted-properties
-  const infectionBRT = currentlyInfected * (Math.trunc(Math.pow(2, time)));
-  return infectionBRT;
 };
 
 // Changenge 2 functions
