@@ -26,12 +26,14 @@ const infectionByRequestTime = (data, currentlyInfected) => {
 
 // Changenge 2 functions
 // eslint-disable-next-line arrow-body-style
-const estSevereCasesBRT = (currentlyInfected) => {
-  return currentlyInfected * 512 * 0.15;
+const estSevereCasesBRT = (infectionByRT) => {
+  const estSevereCasesByRT = Math.trunc(infectionByRT * (15 / 100));
+  return estSevereCasesByRT;
 };
 // eslint-disable-next-line arrow-body-style
 const estHospitalBRT = (data, severeCasesByRequestTime) => {
-  return data.totalHospitalBeds * 0.35 - severeCasesByRequestTime;
+  const hospitalBRT = Math.trunc((data.totalHospitalBeds * (35 / 100)) - severeCasesByRequestTime);
+  return hospitalBRT;
 };
 
 // Changenge 3 functions
@@ -50,7 +52,7 @@ const estimateImpact = (data, impact) => {
   const infectionByRT = Math.trunc(infectionByRequestTime(data, currentlyInfectedR));
 
   // Challenge 2
-  const severeCasesByRequestedTime = estSevereCasesBRT(currentlyInfectedR);
+  const severeCasesByRequestedTime = estSevereCasesBRT(infectionByRT);
   const hospitalBedsByRequestedTime = estHospitalBRT(data, severeCasesByRequestedTime);
 
   // Challenge 3
