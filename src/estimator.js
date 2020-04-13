@@ -1,9 +1,11 @@
 
-// Changenge 1 Functions
+// currently Infected function
 const estimateCurrentlyInfected = (impact, data) => {
   const currentlyInfected = Math.trunc(data.reportedCases * impact);
   return currentlyInfected;
 };
+
+// infections By Requested Time function
 const infectionByRequestTime = (data, currentlyInfected) => {
   let time = '';
   let infectionBRT = '';
@@ -24,32 +26,36 @@ const infectionByRequestTime = (data, currentlyInfected) => {
   return infectionBRT;
 };
 
-// Changenge 2 functions
-// eslint-disable-next-line arrow-body-style
+// Severe cases by Requested Time Function
 const estSevereCasesBRT = (infectionByRT) => {
   const estSevereCasesByRT = Math.trunc(infectionByRT * (15 / 100));
   return estSevereCasesByRT;
 };
-// eslint-disable-next-line arrow-body-style
+
+// Total Hospital beds By requested time function
 const estHospitalBRT = (data, severeCasesByRequestTime) => {
   const hospitalBRT = Math.trunc((data.totalHospitalBeds * (35 / 100)) - severeCasesByRequestTime);
   return hospitalBRT;
 };
 
-// Changenge 3 functions
+// cases for ICU by requested time function
 const estimateCasesForICUByRequestedTime = (data, currentlyInfected) => {
   const infectionRT = infectionByRequestTime(data, currentlyInfected);
   const estCasesForICUBRT = Math.trunc(infectionRT * (5 / 100));
   return estCasesForICUBRT;
 };
+
+// Cases for ventilators by requested Time
 const casesVentilatorsBRT = (data, currentlyInfected) => {
   const infectionRT = infectionByRequestTime(data, currentlyInfected);
   const casesForVentBRT = Math.trunc(infectionRT * (2 / 100));
   return casesForVentBRT;
 };
 
+// Dollars in flight
 const estimateDollarsInFlight = (data, currentlyInfected) => {
   let time = '';
+  // days
   if (data.periodType.toLowerCase() === 'days') {
     time = Math.trunc((data.timeToElapse * 1));
   }
@@ -62,12 +68,11 @@ const estimateDollarsInFlight = (data, currentlyInfected) => {
     time = Math.trunc((data.timeToElapse * 30));
   }
   const infectionRT = infectionByRequestTime(data, currentlyInfected);
-  const dollarsInFlight = Math.trunc(((infectionRT * 0.65
+  const dollarsInFlight = Math.trunc(((infectionRT * data.region.avgDailyIncomePopulation
   * data.region.avgDailyIncomeInUSD) / time));
   return dollarsInFlight;
 };
 
-// Estimate Impact function
 const estimateImpact = (data, impact) => {
   // Challenge 1
   const currentlyInfectedR = Math.trunc(estimateCurrentlyInfected(impact, data));
