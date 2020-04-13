@@ -37,11 +37,17 @@ const estHospitalBRT = (data, severeCasesByRequestTime) => {
 };
 
 // Changenge 3 functions
-const estimateCasesForICUByRequestedTime = (infectionRT) => infectionRT * 0.05;
-const casesVentilatorsBRT = (infectionRT) => infectionRT * 0.02;
+const estimateCasesForICUByRequestedTime = (infectionRT) => {
+  const estCasesForICUBRT = Math.trunc(infectionRT * (5 / 100));
+  return estCasesForICUBRT;
+};
+const casesVentilatorsBRT = (infectionRT) => {
+  const casesForVentBRT = Math.trunc(infectionRT * (2 / 100));
+  return casesForVentBRT;
+};
 const estimateDollarsInFlight = (data, infectionRT) => {
-  const dollarsInFlight = (infectionRT * 0.65)
-  * data.region.avgDailyIncomeInUSD * 30;
+  const dollarsInFlight = Math.trunc(((infectionRT * (65 / 100))
+  * data.region.avgDailyIncomeInUSD) * 30);
   return dollarsInFlight;
 };
 
