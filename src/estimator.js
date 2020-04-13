@@ -51,15 +51,15 @@ const casesVentilatorsBRT = (data, currentlyInfected) => {
 const estimateDollarsInFlight = (data, currentlyInfected) => {
   let time = '';
   if (data.periodType.toLowerCase() === 'days') {
-    time = Math.trunc((data.timeToElapse * 1) / 3);
+    time = Math.trunc((data.timeToElapse * 1));
   }
   // for weeks
   if (data.periodType.toLowerCase() === 'weeks') {
-    time = Math.trunc((data.timeToElapse * 7) / 3);
+    time = Math.trunc((data.timeToElapse * 7));
   }
   // months
   if (data.periodType.toLowerCase() === 'months') {
-    time = Math.trunc((data.timeToElapse * 30) / 3);
+    time = Math.trunc((data.timeToElapse * 30));
   }
   const infectionRT = infectionByRequestTime(data, currentlyInfected);
   const dollarsInFlight = Math.trunc(((infectionRT * 0.65
