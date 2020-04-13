@@ -72,9 +72,11 @@ header, .form-container, .estimated-result, footer {
 button {
     width: 80px;
     height: 40px;
-    color: var(--white);
-    background-color: var(--hotpink);
+    color: var(--hotpink) ;
+    background-color: var(--white);
     border: none;
+    font-size: 1em;
+    font-weight: bold;
 }
 
 .estimated-result {
