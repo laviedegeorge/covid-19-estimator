@@ -47,10 +47,23 @@ const casesVentilatorsBRT = (data, currentlyInfected) => {
   const casesForVentBRT = Math.trunc(infectionRT * (2 / 100));
   return casesForVentBRT;
 };
+
 const estimateDollarsInFlight = (data, currentlyInfected) => {
+  let time = '';
+  if (data.periodType.toLowerCase() === 'days') {
+    time = Math.trunc((data.timeToElapse * 1) / 3);
+  }
+  // for weeks
+  if (data.periodType.toLowerCase() === 'weeks') {
+    time = Math.trunc((data.timeToElapse * 7) / 3);
+  }
+  // months
+  if (data.periodType.toLowerCase() === 'months') {
+    time = Math.trunc((data.timeToElapse * 30) / 3);
+  }
   const infectionRT = infectionByRequestTime(data, currentlyInfected);
-  const dollarsInFlight = Math.trunc(((infectionRT * (65 / 100))
-  * data.region.avgDailyIncomeInUSD) / 30);
+  const dollarsInFlight = Math.trunc(((infectionRT * 0.65
+  * data.region.avgDailyIncomeInUSD) / time));
   return dollarsInFlight;
 };
 
