@@ -10,21 +10,18 @@ const infectionByRequestTime = (data, currentlyInfected) => {
   // for days
   if (data.periodType.toLowerCase() === 'days') {
     time = Math.trunc((data.timeToElapse * 1) / 3);
-    infectionBRT = Math.trunc(currentlyInfected * (2 ** time));
-    return infectionBRT;
   }
   // for weeks
   if (data.periodType.toLowerCase() === 'weeks') {
     time = Math.trunc((data.timeToElapse * 7) / 3);
-    infectionBRT = Math.trunc(currentlyInfected * (2 ** time));
-    return infectionBRT;
   }
   // months
   if (data.periodType.toLowerCase() === 'months') {
     time = Math.trunc((data.timeToElapse * 30) / 3);
-    infectionBRT = Math.trunc(currentlyInfected * (2 ** time));
-    return infectionBRT;
   }
+
+  infectionBRT = Math.trunc(currentlyInfected * (2 ** time));
+  return infectionBRT;
 };
 
 // Changenge 2 functions
